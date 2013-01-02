@@ -2,6 +2,10 @@
 
 * http://github.com/alexvollmer/daemon-spawn
 
+== FORK DESCRIPTION
+
+Forked to add command-line options allowing to run a given number of processes.
+
 == DESCRIPTION
 
 Daemon launching and management made dead simple.
