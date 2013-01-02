@@ -163,6 +163,19 @@ module DaemonSpawn
     def self.spawn!(opts = {}, args = ARGV)
       case args.any? and command = args.shift
       when 'start', 'stop', 'status', 'restart'
+        while (arg = args.shift)
+          case arg
+          when '-n', '--processes'
+            value = args.shift
+            if !(value =~ %r{\d+})
+              DaemonSpawn.usage "Invalid option #{arg} #{value}"
+            else
+              opts.merge! :processes => value.to_i
+            end
+          else
+            DaemonSpawn.usage "Invalid option #{arg}"
+          end
+        end
         send(command, opts, args)
       when '-h', '--help', 'help'
         DaemonSpawn.usage
