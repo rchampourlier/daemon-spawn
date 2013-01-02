@@ -156,6 +156,7 @@ module DaemonSpawn
     # - <tt>:sync_log</tt> -- indicate whether or not to sync log IO
     # - <tt>:singleton</tt> -- If set to true, only one instance is
     # allowed to start
+    # - <tt>:processes</tt> -- the number of processes to start
     # args must begin with 'start', 'stop', 'status', or 'restart'.
     # The first token will be removed and any remaining arguments
     # passed to the daemon's start method.
