@@ -95,10 +95,8 @@ module DaemonSpawn
       self.signal = opts[:signal] || 'TERM'
       self.timeout = opts[:timeout]
       self.index = opts[:index] || 0
-      if self.index > 0
-        self.pid_file += ".#{self.index}"
-        self.log_file += ".#{self.index}"
-      end
+      self.pid_file += ".#{self.index}"
+      self.log_file += ".#{self.index}"
       self.sync_log = opts[:sync_log]
       self.singleton = opts[:singleton] || false
     end
