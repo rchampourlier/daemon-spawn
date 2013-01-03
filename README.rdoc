@@ -4,7 +4,10 @@
 
 == FORK DESCRIPTION
 
-Forked to add command-line options allowing to run a given number of processes.
+Fork providing some customizations:
+
+- on branch `command-line`: adds a command-line option allowing to run a given number of processes (`-n X` or `--processes X`)
+- on branch `show-index`: adds the process' index to the PID and log file, even for index 0.
 
 == DESCRIPTION
 
