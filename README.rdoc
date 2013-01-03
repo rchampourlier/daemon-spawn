@@ -6,7 +6,7 @@
 
 Fork providing some customizations:
 
-- on branch +command-line+: adds a command-line option allowing to run a given number of processes (<tt>-n X<tt> or <tt>--processes X<tt>)
+- on branch +command-line+: adds a command-line option allowing to run a given number of processes (<tt>-n X<tt/> or <tt>--processes X<tt/>)
 - on branch +show-index+: adds the process' index to the PID and log file, even for index 0.
 
 == DESCRIPTION
