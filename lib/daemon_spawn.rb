@@ -169,7 +169,7 @@ module DaemonSpawn
       daemons = []
       index = options[:index]
       unless index
-        count = options.delete(:processes)
+        count = options[:processes]
         unless count
           pid_file = options.delete(:pid_file) || default_file(:pid, options[:working_dir], options[:app_name])
           basename = File.basename(pid_file)
