@@ -90,13 +90,11 @@ module DaemonSpawn
       raise 'You must specify a :working_dir' unless opts[:working_dir]
       self.working_dir = opts[:working_dir]
       self.app_name = opts[:application] || classname
-      self.pid_file = opts[:pid_file] || File.join(working_dir, 'tmp', 'pids', app_name + '.pid')
-      self.log_file = opts[:log_file] || File.join(working_dir, 'logs', app_name + '.log')
+      self.index = opts[:index] || 0
+      self.pid_file = opts[:pid_file] || File.join(working_dir, 'tmp', 'pids', app_name + ".#{self.index}" + '.pid')
+      self.log_file = opts[:log_file] || File.join(working_dir, 'logs', app_name + ".#{self.index}" + '.log')
       self.signal = opts[:signal] || 'TERM'
       self.timeout = opts[:timeout]
-      self.index = opts[:index] || 0
-      self.pid_file += ".#{self.index}"
-      self.log_file += ".#{self.index}"
       self.sync_log = opts[:sync_log]
       self.singleton = opts[:singleton] || false
     end
