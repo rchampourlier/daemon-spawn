@@ -71,10 +71,9 @@ module DaemonSpawn
           puts "Process didn't quit after timeout of #{daemon.timeout} seconds. Killing..."
           Process.kill 9, pid
           puts "Killed process #{pid}"
-        else
-          puts "Stopped process #{pid}"
         end
       end
+      puts "Stopped process #{pid}"
     else
       puts "PID file not found. Is the daemon started?"
     end
