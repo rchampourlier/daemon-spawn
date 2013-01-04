@@ -167,7 +167,7 @@ module DaemonSpawn
 
     def self.find(options)
       daemons = []
-      index = options.delete(:index)
+      index = options[:index]
       unless index
         count = options.delete(:processes)
         unless count
