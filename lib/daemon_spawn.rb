@@ -91,12 +91,31 @@ module DaemonSpawn
       self.working_dir = opts[:working_dir]
       self.app_name = opts[:application] || classname
       self.index = opts[:index] || 0
-      self.pid_file = opts[:pid_file] || File.join(working_dir, 'tmp', 'pids', app_name + ".#{self.index}" + '.pid')
-      self.log_file = opts[:log_file] || File.join(working_dir, 'logs', app_name + ".#{self.index}" + '.log')
+      self.pid_file = file_with_index(:pid, opts[:pid_file])
+      self.log_file = file_with_index(:log, opts[:log_file])
       self.signal = opts[:signal] || 'TERM'
       self.timeout = opts[:timeout]
       self.sync_log = opts[:sync_log]
       self.singleton = opts[:singleton] || false
+    end
+
+    def file_with_index(pid_or_log, path = nil)
+      (if path
+        base_path = path[%r{(.+)\.#{pid_or_log}}, 1]
+        raise "Must provide a #{pid_or_log} file path with '.#{pid_or_log}' extension" if base_path.nil?
+        base_path
+      else
+        default_file(pid_or_log)
+      end) + ".#{self.index}" + ".#{pid_or_log}"
+    end
+
+    def default_file(pid_or_log)
+      case pid_or_log
+      when :pid
+        File.join(working_dir, 'tmp', 'pids', app_name)
+      when :log
+        File.join(working_dir, 'logs', app_name)
+      end
     end
 
     def classname #:nodoc:
