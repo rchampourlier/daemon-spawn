@@ -129,12 +129,17 @@ module DaemonSpawn
     end
 
     def self.build(options)
-      count = options.delete(:processes) || 1
-      daemons = []
-      count.times do |index|
-        daemons << new(options.merge(:index => index))
+      index = options.delete(:index)
+      unless index
+        count = options.delete(:processes) || 1
+        daemons = []
+        count.times do |index|
+          daemons << new(options.merge(:index => index))
+        end
+        daemons
+      else
+        [new(options.merge(:index => index))]
       end
-      daemons
     end
 
     def self.find(options)
