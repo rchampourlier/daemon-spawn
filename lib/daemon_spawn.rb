@@ -110,11 +110,15 @@ module DaemonSpawn
     end
 
     def default_file(pid_or_log)
+      self.class.default_file(pid_or_log, working_dir, app_name)
+    end
+
+    def self.default_file(pid_or_log, working_dir, app_name = nil)
       case pid_or_log
       when :pid
-        File.join(working_dir, 'tmp', 'pids', app_name)
+        File.join(working_dir, 'tmp', 'pids', app_name || self.name)
       when :log
-        File.join(working_dir, 'logs', app_name)
+        File.join(working_dir, 'logs', app_name || self.name)
       end
     end
 
@@ -162,10 +166,30 @@ module DaemonSpawn
     end
 
     def self.find(options)
-      pid_file = new(options).pid_file
-      basename = File.basename(pid_file).split('.').first
-      pid_files = Dir.glob(File.join(File.dirname(pid_file), "#{basename}.*pid*"))
-      pid_files.map { |f| new(options.merge(:pid_file => f)) }
+      daemons = []
+      index = options.delete(:index)
+      unless index
+        count = options.delete(:processes)
+        unless count
+          pid_file = options.delete(:pid_file) || default_file(:pid, options[:working_dir], options[:app_name])
+          basename = File.basename(pid_file)
+          pid_files = Dir.glob(File.join(File.dirname(pid_file), "#{basename}*.pid"))
+          pid_files.map do |pid_file|
+            index = pid_file[%r{(?:.+)\.(\d+)\.pid$}, 1]
+            daemons << new(options.merge(:index => index))
+          end
+        else
+          count.times do |index|
+            daemon = new(options.merge(:index => index))
+            daemons << daemon if File.exist?(daemon.pid_file)
+          end
+        end
+        daemons
+      else
+        daemon = new(options.merge(:index => index))
+        daemons << daemon if File.exist?(daemon.pid_file)
+      end
+      daemons
     end
 
     # Invoke this method to process command-line args and dispatch
