@@ -172,7 +172,7 @@ module DaemonSpawn
         count = options[:processes]
         unless count
           pid_file = options.delete(:pid_file) || default_file(:pid, options[:working_dir], options[:app_name])
-          basename = File.basename(pid_file)
+          basename = File.basename(pid_file)[%r{(.+)\.(?:\d+).pid}, 1]
           pid_files = Dir.glob(File.join(File.dirname(pid_file), "#{basename}*.pid"))
           pid_files.map do |pid_file|
             index = pid_file[%r{(?:.+)\.(\d+)\.pid$}, 1]
