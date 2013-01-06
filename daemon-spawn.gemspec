@@ -40,7 +40,7 @@ Gem::Specification.new do |s|
   s.rdoc_options = ["--charset=UTF-8"]
   s.require_paths = ["lib"]
   s.rubyforge_project = %q{daemon-spawn}
-  s.rubygems_version = %q{1.3.7}
+  s.rubygems_version = "1.3.7"
   s.summary = %q{Daemon launching and management made dead simple}
   s.test_files = [
     "test/daemon_spawn_test.rb",
